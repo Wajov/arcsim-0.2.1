@@ -98,7 +98,7 @@ Vec3 strain_color (const Face *face) {
                           face->v[2]->node->x, face);
     Vec2 l = eigen_decomposition(F.t()*F).l;
     double s0 = sqrt(l[0]) - 1, s1 = sqrt(l[1]) - 1;
-    double tens = clamp(1e2*s0, 0., 0.5), comp = clamp(-1e2*s1, 0., 0.5);
+    double tens = ::clamp(1e2*s0, 0., 0.5), comp = clamp(-1e2*s1, 0., 0.5);
     return Vec3(1-tens, (1-tens)*(1-comp), (1-comp));
 }
 
