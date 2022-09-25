@@ -8,7 +8,7 @@
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210905.0/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220828.0/
 A	remesh.cpp	/^    Mat<n*3,n*3> A;$/;"	m	struct:Quadratic	typeref:typename:Mat<n * 3,n * 3>	file:
 Aap	bah.cpp	/^	Aap (const Box &total) {$/;"	f	struct:Aap	file:
 Aap	bah.cpp	/^struct Aap {$/;"	s	file:
@@ -338,7 +338,7 @@ add_edges_if_needed	mesh.cpp	/^void add_edges_if_needed (Mesh &mesh, const Face 
 add_external_forces	physics.cpp	/^void add_external_forces (const Cloth &cloth, const Vec3 &gravity,$/;"	f	typeref:typename:void
 add_friction_forces	physics.cpp	/^void add_friction_forces (const Cloth &cloth, const vector<Constraint*> cons,$/;"	f	typeref:typename:void
 add_impacts	collision.cpp	/^void add_impacts (const vector<Impact> &impacts, vector<ImpactZone*> &zones) {$/;"	f	typeref:typename:void
-add_internal_forces	physics.cpp	/^void add_internal_forces (const Cloth &cloth, SpMat<Mat3x3> &A,$/;"	f	typeref:typename:double internal_energy double internal_energy void
+add_internal_forces	physics.cpp	/^void add_internal_forces (const Cloth &cloth, SpMat<Mat3x3> &A,$/;"	f	typeref:typename:void
 add_morph_forces	physics.cpp	/^void add_morph_forces (const Cloth &cloth, const Morph &morph, double t,$/;"	f	typeref:typename:void
 add_position_constraints	handle.cpp	/^void add_position_constraints (const Node *node, const Vec3 &x, double stiff,$/;"	f	typeref:typename:void
 add_proximity	proximity.cpp	/^void add_proximity (const Edge *edge0, const Edge *edge1) {$/;"	f	typeref:typename:void
@@ -489,14 +489,14 @@ constraint	separate.cpp	/^double SeparationOpt::constraint (const double *x, int
 constraint	separateobs.cpp	/^double SeparationOpt::constraint (const double *x, int j, int &sign) const {$/;"	f	class:SO::SeparationOpt	typeref:typename:double
 constraint	strainlimiting.cpp	/^double SLOpt::constraint (const double *x, int j, int &sign) const {$/;"	f	class:SLOpt	typeref:typename:double
 constraint_energy	physics.cpp	/^double constraint_energy (const vector<Constraint*> &cons) {$/;"	f	typeref:typename:double
-contains	physics.cpp	/^bool contains (const Mesh &mesh, const Node *node) {$/;"	f	typeref:typename:void add_internal_forces void add_internal_forces bool
+contains	physics.cpp	/^bool contains (const Mesh &mesh, const Node *node) {$/;"	f	typeref:typename:bool
 copy_file	runphysics.cpp	/^void copy_file (const string &input, const string &output) {$/;"	f	typeref:typename:void
 create_accel_structs	collisionutil.cpp	/^vector<AccelStruct*> create_accel_structs (const vector<Mesh*> &meshes,$/;"	f	typeref:typename:vector<AccelStruct * >
 create_vert_sizing	dynamicremesh.cpp	/^void create_vert_sizing (Mesh &mesh, const vector<Plane> &planes) {$/;"	f	typeref:typename:void
 cross	dynamicremesh.cpp	/^double cross (const Vec2 &u, const Vec2 &v) {return u[0]*v[1] - u[1]*v[0];}$/;"	f	typeref:typename:double
 cross	vectors.hpp	/^template <typename T> Vec<3,T> cross (const Vec<3,T> &u, const Vec<3,T> &v) {Vec<3,T> w; w[0] = /;"	f	typeref:typename:Vec<3,T>
 curr_state_mesh	obstacle.hpp	/^    Mesh curr_state_mesh;$/;"	m	struct:Obstacle	typeref:typename:Mesh
-curvature	geometry.cpp	/^template <Space s> Mat2x2 curvature (const Face *face) {$/;"	f	typeref:typename:double dihedral_angle double dihedral_angle Mat2x2
+curvature	geometry.cpp	/^template <Space s> Mat2x2 curvature (const Face *face) {$/;"	f	typeref:typename:Mat2x2
 d	dde.hpp	/^struct BendingData {double d[3][5];};$/;"	m	struct:BendingData	typeref:typename:double[3][5]
 d	dde.hpp	/^struct StretchingData {Vec4 d[2][5];};$/;"	m	struct:StretchingData	typeref:typename:Vec4[2][5]
 d	nearobs.cpp	/^    double d;$/;"	m	struct:NearPoint	typeref:typename:double	file:
@@ -704,7 +704,7 @@ get_constraints	simulation.cpp	/^vector<Constraint*> get_constraints (Simulation
 get_dtrans	transformation.cpp	/^DTransformation get_dtrans (const Motion &motion, double t) {$/;"	f	typeref:typename:DTransformation
 get_edge	mesh.cpp	/^Edge *get_edge (const Node *n0, const Node *n1) {$/;"	f	typeref:typename:Edge *
 get_enclosing_face	geometry.cpp	/^Face* get_enclosing_face(const Mesh& mesh, const Vec2& u,$/;"	f	typeref:typename:Face *
-get_index	simulation.cpp	/^template <typename Prim> int get_index (const Prim *p,$/;"	f	typeref:typename:int size int size int size int size int
+get_index	simulation.cpp	/^template <typename Prim> int get_index (const Prim *p,$/;"	f	typeref:typename:int
 get_mass	collision.cpp	/^double get_mass (const Node *node) {return is_free(node) ? node->m : obs_mass;}$/;"	f	typeref:typename:double
 get_mesh	obstacle.cpp	/^Mesh& Obstacle::get_mesh() {$/;"	f	class:Obstacle	typeref:typename:Mesh &
 get_mesh	obstacle.cpp	/^Mesh& Obstacle::get_mesh(double time) {$/;"	f	class:Obstacle	typeref:typename:Mesh &
@@ -1388,7 +1388,7 @@ umin	bah.hpp	/^    Vec2 umin, umax;$/;"	m	struct:Box	typeref:typename:Vec2
 umin	conf.cpp	/^    Vec2 umin, umax;$/;"	m	struct:Box	typeref:typename:Vec2	file:
 unsigned_ee_distance	geometry.cpp	/^double unsigned_ee_distance (const Vec3 &x0, const Vec3 &x1,$/;"	f	typeref:typename:double
 unsigned_vf_distance	geometry.cpp	/^double unsigned_vf_distance (const Vec3 &x,$/;"	f	typeref:typename:double
-unwrap_angle	geometry.cpp	/^double unwrap_angle (double theta, double theta_ref) {$/;"	f	typeref:typename:Vec3 nor Vec3 nor double
+unwrap_angle	geometry.cpp	/^double unwrap_angle (double theta, double theta_ref) {$/;"	f	typeref:typename:double
 update_accel_struct	collisionutil.cpp	/^void update_accel_struct (AccelStruct &acc) {$/;"	f	typeref:typename:void
 update_active	collision.cpp	/^void update_active (const vector<AccelStruct*> &accs,$/;"	f	typeref:typename:void
 update_active	dynamicremesh.cpp	/^void update_active (const RemeshOp &op, vector<Face*> &active) {$/;"	f	typeref:typename:void

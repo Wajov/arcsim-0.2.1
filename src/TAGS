@@ -1221,23 +1221,23 @@ void relax_initial_state 78,3039
 void validate_handles 102,3799
 void advance_frame 120,4462
 void advance_step 125,4577
-vector<Constraint*> get_constraints 141,5003
-void delete_constraints 155,5586
-void physics_step 166,5846
-void step_mesh 188,6851
-void plasticity_step 193,6992
-void strainlimiting_step 204,7302
-void equilibration_step 214,7711
-void strainzeroing_step 237,8544
-void collision_step 254,9228
-void remeshing_step 266,9667
-    typedef vector<Residual> MeshResidual;277,10105
-void update_velocities 325,11909
-void update_obstacles 334,12183
-template <typename Prim> int size 355,12920
-template <typename Prim> int get_index 365,13292
-template <typename Prim> Prim *get get381,13917
-vector<Vec3> node_positions 396,14406
+vector<Constraint*> get_constraints 141,4996
+void delete_constraints 155,5579
+void physics_step 166,5839
+void step_mesh 188,6844
+void plasticity_step 193,6985
+void strainlimiting_step 204,7295
+void equilibration_step 214,7704
+void strainzeroing_step 237,8537
+void collision_step 254,9221
+void remeshing_step 266,9660
+    typedef vector<Residual> MeshResidual;277,10098
+void update_velocities 325,11902
+void update_obstacles 334,12176
+template <typename Prim> int size 355,12913
+template <typename Prim> int get_index 365,13285
+template <typename Prim> Prim *get get381,13910
+vector<Vec3> node_positions 396,14399
 
 simulation.hpp,1398
 #define SIMULATION_HPP28,1321
