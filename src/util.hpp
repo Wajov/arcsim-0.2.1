@@ -61,7 +61,7 @@ std::ostream &operator<< (std::ostream &out, const Stats &stats);
 
 // sprintf for std::strings
 
-std::string stringf (const std::string &format, ...);
+std::string stringf (const std::string format, ...);
 
 // Easy reporting of vertices and faces
 

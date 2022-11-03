@@ -65,7 +65,7 @@ ostream &operator<< (ostream &out, const Stats &stats) {
     return out;
 }
 
-inline string stringf (const string &format, ...) {
+inline string stringf (const string format, ...) {
     char buf[256];
     va_list args;
     va_start(args, format);

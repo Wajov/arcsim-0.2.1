@@ -26,35 +26,16 @@
 
 #include "vectors.hpp"
 #include "blockvectors.hpp"
+#include "eigen.hpp"
 using namespace std;
-
-// LAPACK stuff
-extern "C" {
-
-#ifdef _WIN32
-#define LAPACKE_dgesvd dgesvd_
-#define LAPACKE_dsyev  dsyev_
-#endif
-
-#define lapack_int int
-#define LAPACK_ROW_MAJOR 101
-#define LAPACK_COL_MAJOR 102
-lapack_int LAPACKE_dsyev( int matrix_order, char jobz, char uplo, lapack_int n,
-                          double* a, lapack_int lda, double* w );
-lapack_int LAPACKE_dgesvd( int matrix_order, char jobu, char jobvt,
-                           lapack_int m, lapack_int n, double* a,
-                           lapack_int lda, double* s, double* u, lapack_int ldu,
-                           double* vt, lapack_int ldvt, double* superb );
-
-}
 
 template <int n> Eig<n> eigen_decomposition (const Mat<n,n> &A) {
     Eig<n> eig;
     Vec<n*n> a = mat_to_vec(A);
     Vec<n> &w = eig.l;
-    int info = LAPACKE_dsyev(LAPACK_COL_MAJOR, 'V', 'U', n, &a[0], n, &w[0]);
+    int info = eigenvalue_decomposition(n, &a[0], &w[0], true);
     if (info != 0)
-        cout << "LAPACKE_dsyev failed with return value " << info << " on matrix " << A << endl;
+        cout << "Eigen ED failed with return value " << info << " on matrix " << A << endl;
     // SSYEV overwrites a with the eigenvectors
     eig.Q = vec_to_mat<n,n>(a);
     for (int i = 0; i < n/2; i++) {
@@ -65,23 +46,6 @@ template <int n> Eig<n> eigen_decomposition (const Mat<n,n> &A) {
 }
 
 template<> Eig<2> eigen_decomposition<2>(const Mat2x2 &A) {
-#if 0
-    Eig<2> eig0;
-    {
-      Vec<2*2> a = mat_to_vec(A);
-      Vec<2> &w = eig0.l;
-      int info = LAPACKE_dsyev(LAPACK_COL_MAJOR, 'V', 'U', 2, &a[0], 2, &w[0]);
-      if (info != 0)
-        cout << "LAPACKE_dsyev failed with return value " << info << " on matrix " << A << endl;
-      // SSYEV overwrites a with the eigenvectors
-      eig0.Q = vec_to_mat<2,2>(a);
-      for (int i = 0; i < 2/2; i++) {
-        swap(eig0.l[i], eig0.l[2-i-1]);
-        swap(eig0.Q.col(i), eig0.Q.col(2-i-1));
-      }
-    }
-	return eig0;
-#else
     // http://www.math.harvard.edu/archive/21b_fall_04/exhibits/2dmatrices/index.html
     // http://en.wikipedia.org/wiki/Eigenvalue_algorithm
     Eig<2> eig;
@@ -121,7 +85,6 @@ template<> Eig<2> eigen_decomposition<2>(const Mat2x2 &A) {
     }
 
 	return eig;
-#endif
 }
 
 template <int m, int n> SVD<m,n> singular_value_decomposition (const Mat<m,n> &A) {
@@ -131,10 +94,9 @@ template <int m, int n> SVD<m,n> singular_value_decomposition (const Mat<m,n> &A
     Vec<n> &s = svd.s;
     Vec<n*n> vt;
     Vec<n> superb;
-    int info  = LAPACKE_dgesvd(LAPACK_COL_MAJOR, 'A', 'A', m, n, &a[0], m,
-                               &s[0], &u[0], m, &vt[0], n, &superb[0]);
+    int info = singular_value_decomposition(m, n, &a[0], &s[0], &u[0], &vt[0]);
     if (info != 0)
-        cout << "LAPACKE_dgesvd failed with return value " << info << " on matrix " << A << endl;
+        cout << "Eigen SVD failed with return value " << info << " on matrix " << A << endl;
     svd.U = vec_to_mat<m,m>(u);
     svd.Vt = vec_to_mat<n,n>(vt);
     return svd;

@@ -37,14 +37,12 @@
 #pragma warning(disable:4800) // forcing value to bool 'true' or 'false'
 #pragma warning(disable:161)  // unrecognized #pragma
 
-#define _USE_MATH_DEFINES // just to have M_PI
 #include <cmath>
 
 #include <windows.h>
 #undef min
 #undef max
 #include <stdio.h>
-#define snprintf _snprintf
 
 #include <boost/math/special_functions/fpclassify.hpp> 
 template <class T> inline bool isfinite(const T& number) { return boost::math::isfinite(number); }
