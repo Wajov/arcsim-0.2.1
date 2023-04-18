@@ -261,26 +261,6 @@ void add_internal_forces (const Cloth &cloth, SpMat<Mat3x3> &A,
             add_subvec(dt*(F + (dt+damping)*J*vs), indices(n0,n1,n2), b);
         }
     }
-
-    if (sim.step % sim.frame_steps == 0) {
-        int nn = b.size();
-        std::ofstream fout("../ClothSimulator/standard_a.txt");
-        for (int i = 0; i < nn; i++)
-            for (int k = 0; k < 3; k++) {
-                for (int j = 0; j < nn; j++)
-                    for (int h = 0; h < 3; h++)
-                        fout << A(i, j)(k, h) << ' ';
-                fout << std::endl;
-            }
-        fout.close();
-        
-        fout.open("../ClothSimulator/standard_b.txt");
-        for (int i = 0; i < nn; i++)
-            for (int j = 0; j < 3; j++)
-                fout << b[i][j] << std::endl;
-        fout.close();
-    }
-    
     for (int e = 0; e < mesh.edges.size(); e++) {
         const Edge *edge = mesh.edges[e];
         if (!edge->adjf[0] || !edge->adjf[1])
@@ -405,7 +385,7 @@ void implicit_update (Cloth &cloth, const vector<Vec3> &fext,
     }
     add_internal_forces<WS>(cloth, A, b, dt);
     add_constraint_forces(cloth, cons, A, b, dt);
-    // add_friction_forces(cloth, cons, A, b, dt);
+    add_friction_forces(cloth, cons, A, b, dt);
     vector<Vec3> dv = linear_solve(A, b);
     for (int n = 0; n < mesh.nodes.size(); n++) {
         Node *node = mesh.nodes[n];

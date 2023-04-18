@@ -4,7 +4,7 @@
         "cwd": "${workspaceFolder}",
         "args": [
             "simulate",
-            "conf/sphere128.json"
+            "conf/sphere.json"
         ]
     },
     "files.associations": {
@@ -101,6 +101,23 @@
         "variant": "cpp",
         "xhash": "cpp",
         "xlocbuf": "cpp",
-        "xlocmes": "cpp"
+        "xlocmes": "cpp",
+        "lu": "cpp",
+        "cholesky": "cpp",
+        "core": "cpp",
+        "eigenvalues": "cpp",
+        "geometry": "cpp",
+        "householder": "cpp",
+        "iterativelinearsolvers": "cpp",
+        "jacobi": "cpp",
+        "orderingmethods": "cpp",
+        "qr": "cpp",
+        "svd": "cpp",
+        "sparse": "cpp",
+        "sparsecholesky": "cpp",
+        "sparsecore": "cpp",
+        "sparselu": "cpp",
+        "sparseqr": "cpp",
+        "*.ipp": "cpp"
     }
 }

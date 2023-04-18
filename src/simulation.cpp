@@ -128,33 +128,14 @@ void advance_step (Simulation &sim) {
     sim.step++;
     cout << "Sim frame " << sim.frame << " [" << sim.step << "]" << endl;
 
-    if (sim.step % sim.frame_steps == 0) {
-        save_obj(*sim.cloth_meshes[0], "../ClothSimulator/mesh.obj");
-        
-        std::ofstream fout("../ClothSimulator/input.txt");
-        fout.precision(20);
-        for (const Node* node : sim.cloths[0].mesh.nodes) {
-            for (int i = 0; i < 3; i++)
-                fout << node->x0[i] << ' ';
-            for (int i = 0; i < 3; i++)
-                fout << node->x[i] << ' ';
-            for (int i = 0; i < 3; i++)
-                fout << node->v[i] << ' ';
-            fout << std::endl;
-        }
-        fout.close();
-    }
-
     update_obstacles(sim, false);
     vector<Constraint*> cons = get_constraints(sim, true);
     physics_step(sim, cons);
-    // plasticity_step(sim);
-    // strainlimiting_step(sim, cons);
+    plasticity_step(sim);
+    strainlimiting_step(sim, cons);
     collision_step(sim);
     if (sim.step % sim.frame_steps == 0) {
         remeshing_step(sim);
-        Mesh* mesh = sim.cloth_meshes[0];
-        std::cout << "V=" << mesh->nodes.size() << " E=" << mesh->edges.size() << " F=" << mesh->faces.size() << std::endl;
         sim.frame++;
     }
     delete_constraints(cons);
@@ -164,13 +145,13 @@ vector<Constraint*> get_constraints (Simulation &sim, bool include_proximity) {
     vector<Constraint*> cons;
     for (int h = 0; h < sim.handles.size(); h++)
         append(cons, sim.handles[h]->get_constraints(sim.time));
-    // if (include_proximity && sim.enabled[proximity]) {
-    //     sim.timers[proximity].tick();
-    //     append(cons, proximity_constraints(sim.cloth_meshes,
-    //                                        sim.obstacle_meshes,
-    //                                        sim.friction, sim.obs_friction));
-    //     sim.timers[proximity].tock();
-    // }
+    if (include_proximity && sim.enabled[proximity]) {
+        sim.timers[proximity].tick();
+        append(cons, proximity_constraints(sim.cloth_meshes,
+                                           sim.obstacle_meshes,
+                                           sim.friction, sim.obs_friction));
+        sim.timers[proximity].tock();
+    }
     return cons;
 }
 
@@ -318,18 +299,18 @@ void remeshing_step (Simulation &sim, bool initializing) {
     }
     sim.timers[remeshing].tock();
     // restore residuals
-    // if (sim.enabled[plasticity] && !initializing) {
-    //     sim.timers[plasticity].tick();
-    //     for (int c = 0; c < sim.cloths.size(); c++)
-    //         restore_residuals(sim.cloths[c].mesh, old_meshes[c], res[c]);
-    //     sim.timers[plasticity].tock();
-    // }
+    if (sim.enabled[plasticity] && !initializing) {
+        sim.timers[plasticity].tick();
+        for (int c = 0; c < sim.cloths.size(); c++)
+            restore_residuals(sim.cloths[c].mesh, old_meshes[c], res[c]);
+        sim.timers[plasticity].tock();
+    }
     // separate
-    // if (sim.enabled[separation]) {
-    //     sim.timers[separation].tick();
-    //     separate(sim.cloth_meshes, old_meshes_p, sim.obstacle_meshes);
-    //     sim.timers[separation].tock();
-    // }
+    if (sim.enabled[separation]) {
+        sim.timers[separation].tick();
+        separate(sim.cloth_meshes, old_meshes_p, sim.obstacle_meshes);
+        sim.timers[separation].tock();
+    }
     // apply pop filter
     if (sim.enabled[popfilter] && !initializing) {
         sim.timers[popfilter].tick();

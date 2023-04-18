@@ -298,7 +298,7 @@ void parse_motions (vector<Motion> &motions, const Json::Value &json) {
             for (int p = 0; p < motions[m].points.size(); p++)
                 fill_in_velocity(motions[m], p);
         }
-    } else
+    } else if (json.isArray() && !json.isNull())
         parse(motions, json);
 }
 
